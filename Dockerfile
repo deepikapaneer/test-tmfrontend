@@ -12,9 +12,7 @@ RUN npm ci --only=production
 # Copy source code
 COPY . .
 
-# Set build-time variables (only what's needed for build)
-ARG STRIPE_SECRET_KEY=dummy
-ENV STRIPE_SECRET_KEY=$STRIPE_SECRET_KEY
+# Set build-time variables
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
