@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 env:
-  REGISTRY_NAME: your-acr-name
+  REGISTRY_NAME: TMfinalfrontend
   IMAGE_NAME: tmfrontend
   AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
