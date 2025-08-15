@@ -3,22 +3,31 @@ FROM node:18-alpine AS builder
 
 WORKDIR /app
 
+# Copy package files first for better caching
 COPY package*.json ./
-RUN npm install
 
+# Install dependencies
+RUN npm ci --only=production
+
+# Copy source code
 COPY . .
 
-# Set a dummy value for STRIPE_SECRET_KEY to allow build to succeed
+# Set build-time variables
 ARG STRIPE_SECRET_KEY=dummy
 ENV STRIPE_SECRET_KEY=$STRIPE_SECRET_KEY
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
 
-RUN npm run build
+# Add debugging to see what's happening
+RUN echo "Starting build process..."
+RUN npm run build || (echo "Build failed, checking for errors..." && exit 1)
 
-# Stage 2: Production image, only necessary files
+# Stage 2: Production image
 FROM node:18-alpine
 
 WORKDIR /app
 
+# Copy built application
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
