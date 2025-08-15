@@ -12,15 +12,24 @@ RUN npm ci --only=production
 # Copy source code
 COPY . .
 
-# Set build-time variables
+# Set build-time variables (only what's needed for build)
 ARG STRIPE_SECRET_KEY=dummy
 ENV STRIPE_SECRET_KEY=$STRIPE_SECRET_KEY
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# Add debugging to see what's happening
-RUN echo "Starting build process..."
-RUN npm run build || (echo "Build failed, checking for errors..." && exit 1)
+# Add environment variables needed for build (these will be overridden at runtime)
+ENV NEXT_PUBLIC_USER_API_URL=https://trademinutes-user-service.onrender.com
+ENV NEXT_PUBLIC_TASK_API_URL=https://trademinutes-task-core.onrender.com
+ENV NEXT_PUBLIC_MESSAGING_API_URL=https://trademinutes-messaging.onrender.com
+ENV NEXT_PUBLIC_MESSAGING_WS_URL=wss://trademinutes-messaging.onrender.com
+ENV NEXT_PUBLIC_API_BASE_URL=https://tmagenticai.onrender.com
+ENV NEXT_PUBLIC_AUTH_API_URL=https://trademinutes-user-service.onrender.com
+ENV NEXT_PUBLIC_REVIEW_API_URL=https://trademinutes-review-service.onrender.com
+ENV NEXT_PUBLIC_PROFILE_API_URL=https://trademinutes-profile-service.onrender.com
+
+# Build the Next.js application
+RUN npm run build
 
 # Stage 2: Production image
 FROM node:18-alpine
