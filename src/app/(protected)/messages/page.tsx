@@ -91,7 +91,7 @@ export default function MessagesPage() {
   useEffect(() => {
     if (!currentUser?.email) return;
 
-    const wsUrl = `${process.env.NEXT_PUBLIC_MESSAGING_WS_URL || 'wss://trademinutes-messaging.onrender.com'}/ws?userId=${currentUser.email}`;
+    const wsUrl = `${process.env.NEXT_PUBLIC_MESSAGING_WS_URL}/ws?userId=${currentUser.email}`;
     console.log("Connecting to WebSocket:", wsUrl);
     const websocket = new WebSocket(wsUrl);
 
@@ -140,7 +140,7 @@ export default function MessagesPage() {
         console.log("Fetching conversations for user:", currentUser.email);
         const token = localStorage.getItem("token");
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_MESSAGING_API_URL || 'http://localhost:8085'}/api/conversations?userId=${currentUser.email}`,
+          `${process.env.NEXT_PUBLIC_MESSAGING_API_URL}/api/conversations?userId=${currentUser.email}`,
           {
             headers: {
               'Authorization': `Bearer ${token}`,
@@ -180,7 +180,7 @@ export default function MessagesPage() {
         console.log("Fetching messages for conversation:", selectedConv);
         const token = localStorage.getItem("token");
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_MESSAGING_API_URL || 'http://localhost:8085'}/api/conversations/${selectedConv}/messages`,
+          `${process.env.NEXT_PUBLIC_MESSAGING_API_URL}/api/conversations/${selectedConv}/messages`,
           {
             headers: {
               'Authorization': `Bearer ${token}`,

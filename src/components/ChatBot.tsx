@@ -211,7 +211,7 @@ export default function ChatBot({ userSkills }: ChatBotProps) {
     }
 
     try {
-    const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://tmagenticai.onrender.com';
+    const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
     const res = await fetch(`${API_BASE_URL}/api/agentic-chat`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

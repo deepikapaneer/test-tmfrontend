@@ -12,6 +12,7 @@ import { FaFacebookF, FaApple, FaGithub, FaCheckCircle } from 'react-icons/fa';
 import { ImSpinner2 } from 'react-icons/im';
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 import ChatBotWithAuth from "@/components/ChatBotWithAuth";
+import { getApiConfig } from "@/lib/config";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -47,7 +48,9 @@ export default function LoginPage() {
     setLoading(true);
     
     try {
-      const authUrl = process.env.NEXT_PUBLIC_USER_API_URL || 'https://trademinutes-user-service.onrender.com';
+      // Get runtime configuration
+      const config = await getApiConfig();
+      const authUrl = config.USER_API_URL;
       console.log('🔗 Attempting login to:', `${authUrl}/api/auth/login`);
       
       const res = await fetch(

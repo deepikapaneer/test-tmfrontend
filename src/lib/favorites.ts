@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_TASK_API_URL || "https://trademinutes-task-core.onrender.com";
+const API_BASE_URL = process.env.NEXT_PUBLIC_TASK_API_URL;
 
 export interface FavoriteService {
   ID?: string;
